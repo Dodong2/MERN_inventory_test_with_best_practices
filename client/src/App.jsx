@@ -5,6 +5,7 @@ import './App.css'
 function App() {
 
   const ProductList = lazy(() => import('./pages/ProductList'))
+  const AddProduct = lazy(() => import('./pages/AddProduct'))
 
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
       <Suspense fallback={<div>Loading</div>}>
         <Routes>
           <Route path='/list' element={<ProductList/>}/>
+          <Route path='/add' element={<AddProduct/>}/>
         </Routes>
       </Suspense>
      </Router>

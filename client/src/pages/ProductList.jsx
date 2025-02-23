@@ -35,6 +35,7 @@ const ProductList = () => {
                     <li key={product._id}>
                         {product.name} - {product.price} PHP - Stock: {product.quantity}
                         <button onClick={() => handleDelete(product._id)}>Delete</button>
+                        <button>Details</button>
                     </li>
                 ))}
             </ul>
