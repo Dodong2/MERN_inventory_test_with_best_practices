@@ -43,6 +43,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
     const { name, category, quantity, price, description } = req.body
     const { id } = req.params
+    
     try {
         const updateProduct = await Product.findByIdAndUpdate(id, {
             name,
@@ -86,7 +87,7 @@ const purchaseProduct = async (req, res) => {
             return res.status(404).json({ message: 'Product not found' })
         }
 
-        if(!product.quantity < quantity) {
+        if(product.quantity < quantity) {
             return res.status(400).json({ message: 'Not enough stock available' })
         }
 

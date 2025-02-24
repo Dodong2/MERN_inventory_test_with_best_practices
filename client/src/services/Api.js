@@ -32,7 +32,7 @@ export const createProduct = async (productData) => {
 // update product
 export const updateProduct = async (id, updatedData) => {
     try {
-        const response = await api.put(`/${id}`, updatedData)
+        const response = await api.put(`/${String(id)}`, updatedData)
         return response.data
     } catch(error) {
         return error.response ? error.response.data : { message: 'An error occurred' };
@@ -53,9 +53,10 @@ export const deleteProduct = async (id) => {
     }
 }
 
-export const purchaseProduct = async (purchaseData) => {
+//purchase product
+export const purchaseProduct = async (data) => {
     try  {
-        const response = await api.post('/purchase', purchaseData)
+        const response = await api.post('/purchase', data)
         return response.data
     } catch(error) {
         return error.response ? error.response.data : { message: 'An error occurred' };

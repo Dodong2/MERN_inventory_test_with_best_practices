@@ -18,6 +18,7 @@ const ProductDetails = () => {
             console.error("Error fetching product:", error)
         }
     }
+    
   return (
     <>
         <div>
@@ -27,6 +28,7 @@ const ProductDetails = () => {
                     <p>Name: {product.name}</p>
                     <p>Category: {product.category}</p>
                     <p>Price: {product.price}</p>
+                    <p>Quantity: {product.quantity}</p>
                     <p>Description: {product.description}</p>
                 </div>
             ) : (
