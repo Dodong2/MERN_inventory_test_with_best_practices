@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
-import { getProducts, deleteProduct } from '../services/Api'
-import { useNavigate } from 'react-router-dom'
+import { getProducts, deleteProduct } from '../services/productApi'
+import { getTodaySales } from '../services/salesApi'
+import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const ProductList = () => {
     const [ products, setProducts] = useState([])
+    const [ totalEarnings, setTotalEarnings ] = useState(0)
     const navigate = useNavigate()
 
     useEffect(() => {
         fetchProducts()
+        fetchTotalEarnings()
     }, [])
 
     //Get Products
@@ -21,6 +24,17 @@ const ProductList = () => {
             console.error('Error fetching products:', error)
         }
     }
+
+    // Get Total Earnings
+    const fetchTotalEarnings = async () => {
+        try {
+            const data = await getTodaySales()
+                setTotalEarnings(data.totalSales || 0)
+        } catch(error) {
+            console.error('Error fetching total earnings:', error)
+        }
+    }
+
     //Delete Products
     const handleDelete = async (productId) => {
         try {
@@ -31,18 +45,22 @@ const ProductList = () => {
         }
     }
 
+    //validation kung zero stocks hindi makakabili
     const onPurchase = (product) => {
         if(product.quantity <= 0) {
             toast.error('Out of stock! Cannot proceed with purchase.', { position: 'top-right' })
             return
         }
         navigate(`/product/purchase/${product._id}`)
+        fetchTotalEarnings();
     }
 
   return (
     <div>
         <h1>Invetory Management</h1>
+        <h2>Total Earnings: {totalEarnings} PHP</h2>
         <button onClick={() => navigate('/add')}>add</button>
+        <Link to='/history'><button>View Sales history</button></Link>
            {products.length > 0 ? (
             <ul>
                 {products.map((product) => (
@@ -55,7 +73,7 @@ const ProductList = () => {
                     </li>
                 ))}
             </ul>
-           ): (
+           ) : (
             <p>No product</p>
            )}
     </div>

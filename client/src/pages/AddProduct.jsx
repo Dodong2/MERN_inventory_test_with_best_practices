@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createProduct } from "../services/Api"
+import { createProduct } from "../services/productApi"
 
 const AddProduct = () => {
     const [product, setProduct] = useState({

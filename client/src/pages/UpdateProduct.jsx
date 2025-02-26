@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { updateProduct, getProductById } from "../services/Api"
+import { updateProduct, getProductById } from "../services/productApi"
 import { useParams, useNavigate } from "react-router-dom"
 
 const UpdateProduct = () => {

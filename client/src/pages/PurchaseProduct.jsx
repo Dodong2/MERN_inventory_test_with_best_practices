@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import { purchaseProduct } from "../services/Api"
+import { purchaseProduct } from "../services/productApi"
 
 const PurchaseProduct = () => {
   const { id } = useParams()

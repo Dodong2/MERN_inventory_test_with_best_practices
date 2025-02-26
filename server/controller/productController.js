@@ -1,4 +1,5 @@
 const Product = require('../models/product')
+const Sales = require('../models/sales')
 
 //Get all Products
 const getProducts = async (req, res) => {
@@ -97,12 +98,21 @@ const purchaseProduct = async (req, res) => {
 
         await product.save()
 
+        //save yung sales record
+        const salesRecord = await Sales.create({
+            productId,
+            productName: product.name,
+            quantity,
+            totalPrice
+        })
+
         res.status(200).json({
             message: 'Purchase successful',
             productName: product.name,
             quantityPurchased: quantity,
             remainingStock: product.quantity,
-            totalPrice
+            totalPrice,
+            salesRecord
         })
     } catch(err) {
         console.log(err)
