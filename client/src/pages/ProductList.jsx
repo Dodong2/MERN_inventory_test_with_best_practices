@@ -1,13 +1,19 @@
+/* react lib */
 import { useEffect, useState } from 'react'
-import { getProducts } from '../services/productApi'
-import { getTodaySales } from '../services/salesApi'
 import { useNavigate, Link } from 'react-router-dom'
+/* react notif lib */
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+/* services */
+import { getProducts } from '../services/productApi'
+import { getTodaySales } from '../services/salesApi'
+/* components */
+import SearchBar from '../components/SearchBar'
 
 const ProductList = () => {
     const [ products, setProducts] = useState([])
     const [ totalEarnings, setTotalEarnings ] = useState(0)
+    const [filteredProducts, setFilteredProducts] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -20,6 +26,7 @@ const ProductList = () => {
         try {
             const data = await getProducts()
             setProducts(data.products)
+            setFilteredProducts(data.products)
         } catch(error) {
             console.error('Error fetching products:', error)
         }
@@ -47,6 +54,14 @@ const ProductList = () => {
         fetchTotalEarnings();
     }
 
+    //for search
+    const handleSearch = (searchTerm) => {
+        const filtered = products.filter((product) => (
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        )
+        setFilteredProducts(filtered)
+    }
+
   return (
     <div>
         <h1>Invetory Management</h1>
@@ -54,10 +69,10 @@ const ProductList = () => {
         <button onClick={() => navigate('/add')}>add</button>
         <Link to='/sales'><button>View Sales report</button></Link>
         <Link to='/history'><button>View Sales history</button></Link><br/>
-        <input type='text' placeholder='Search'/>
-           {products.length > 0 ? (
+        <SearchBar placeholder='Search Product...' onSearch={handleSearch}/>
+           {filteredProducts.length > 0 ? (
             <ul>
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <li key={product._id}>
                         {product.name} - {product.price} PHP - Stock: {product.quantity}
                         <button onClick={() => navigate(`/product/${product._id}`)}>Details</button>

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import { getSalesHistory } from "../services/salesApi"
+// import SearchBar from "../components/SearchBar"
 
 const SalesHistory = () => {
 //logics
     const [salesHistory, setSalesHistory] = useState([])
+    // const [search, setSearch] = useState([])
 
     useEffect(() => {
         fetchSalesData()
@@ -13,11 +15,21 @@ const SalesHistory = () => {
     const fetchSalesData = async() => {
         const history = await getSalesHistory()
         setSalesHistory(history.sales || [])
+        // setSearch(history.sales || [])
     }
+    
+    // const handleSearch = (searchTerm) => {
+    //     const filtered = salesHistory.filter(
+    //         (sale) =>
+    //             sale.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //             sale.customerName.toLowerCase().includes(searchTerm.toLowerCase()) 
+    //     );
+    //     setSearch(filtered);
+    // };
 
   return (
     <div>
-        <input type='text' placeholder='Search'/>
+        {/* <SearchBar onSearch={handleSearch} placeholder="Search Product or Customer..." /> */}
         <h3>Sales History</h3>
         <table>
                 <thead>
