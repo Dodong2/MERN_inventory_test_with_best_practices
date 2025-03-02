@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
-import { updateProduct, getProductById } from "../services/productApi"
+import { updateProduct, getProductById, deleteProduct } from "../services/productApi"
 import { useParams, useNavigate } from "react-router-dom"
+import { toast } from 'react-toastify'
 
 const UpdateProduct = () => {
     const { id } = useParams()
@@ -40,11 +41,24 @@ const UpdateProduct = () => {
         e.preventDefault()
         try {
             await updateProduct(id, product)
+            toast.success("Product updated successfully!")
             navigate('/')
         } catch(error) {
             console.error("Error updating product:", error);
         }
     }
+
+        //Delete Products
+        const handleDelete = async () => {
+            if(window.confirm("Are you sure you want to delete this product?")) {
+            try {
+                await deleteProduct(id)
+                navigate('/')
+            } catch(error) {
+                console.error('Error Delete products', error)
+            }
+        }
+        }
 
   return (
     <>
@@ -55,6 +69,7 @@ const UpdateProduct = () => {
             <input type="text" name="description" value={product.description} onChange={handleChange} placeholder="description" required/>
             <button type="submit">Update</button>
         </form>
+        <button onClick={() => handleDelete()}>Delete</button>
     </>
   )
 }

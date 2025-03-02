@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getProducts, deleteProduct } from '../services/productApi'
+import { getProducts } from '../services/productApi'
 import { getTodaySales } from '../services/salesApi'
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -35,15 +35,7 @@ const ProductList = () => {
         }
     }
 
-    //Delete Products
-    const handleDelete = async (productId) => {
-        try {
-            await deleteProduct(productId)
-            fetchProducts()
-        } catch(error) {
-            console.error('Error Delete products', error)
-        }
-    }
+  
 
     //validation kung zero stocks hindi makakabili
     const onPurchase = (product) => {
@@ -60,13 +52,14 @@ const ProductList = () => {
         <h1>Invetory Management</h1>
         <h2>Total Earnings: {totalEarnings} PHP</h2>
         <button onClick={() => navigate('/add')}>add</button>
-        <Link to='/history'><button>View Sales history</button></Link>
+        <Link to='/sales'><button>View Sales report</button></Link>
+        <Link to='/history'><button>View Sales history</button></Link><br/>
+        <input type='text' placeholder='Search'/>
            {products.length > 0 ? (
             <ul>
                 {products.map((product) => (
                     <li key={product._id}>
                         {product.name} - {product.price} PHP - Stock: {product.quantity}
-                        <button onClick={() => handleDelete(product._id)}>Delete</button>
                         <button onClick={() => navigate(`/product/${product._id}`)}>Details</button>
                         <button onClick={() => onPurchase(product)}>purchase</button>
                         <button onClick={() => navigate(`/product/update/${product._id}`)}>Update</button>

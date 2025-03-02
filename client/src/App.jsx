@@ -11,6 +11,7 @@ function App() {
   const PurchaseProduct = lazy(() => import('./pages/PurchaseProduct'))
   const UpdateProduct = lazy(() => import('./pages/UpdateProduct'))
   const SalesPage = lazy(() => import('./pages/SalesPage'))
+  const SalesHistory = lazy(() => import('./pages/SalesHistory'))
 
   return (
     <>
@@ -23,7 +24,8 @@ function App() {
           <Route path='/product/update/:id' element={<UpdateProduct/>}/>
           <Route path='/product/purchase/:id' element={<PurchaseProduct/>}/>
           <Route path='/add' element={<AddProduct/>}/>
-          <Route path='/history' element={<SalesPage/>}/>
+          <Route path='/sales' element={<SalesPage/>}/>
+          <Route path='/history' element={<SalesHistory/>}/>
         </Routes>
       </Suspense>
      </Router>
