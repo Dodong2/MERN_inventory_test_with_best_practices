@@ -15,6 +15,7 @@ const getProducts = async (req, res) => {
 //Get product by ID
 const getProductById = async (req, res) => {
     const { id } = req.params
+
     try {
         const product = await Product.findById(id)
         res.status(200).json(product)
@@ -79,7 +80,7 @@ const deleteProduct = async (req, res) => {
 
 // Purchase Product (Auto Compute Total & Deduct Stock)
 const purchaseProduct = async (req, res) => {
-    const { productId, quantity } = req.body
+    const { productId, quantity, customerName } = req.body
     
     try {
         const product = await Product.findById(productId)
@@ -103,7 +104,8 @@ const purchaseProduct = async (req, res) => {
             productId,
             productName: product.name,
             quantity,
-            totalPrice
+            totalPrice,
+            customerName
         })
 
         res.status(200).json({
@@ -112,6 +114,7 @@ const purchaseProduct = async (req, res) => {
             quantityPurchased: quantity,
             remainingStock: product.quantity,
             totalPrice,
+            customerName,
             salesRecord
         })
     } catch(err) {

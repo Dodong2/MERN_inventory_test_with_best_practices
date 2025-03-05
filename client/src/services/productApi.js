@@ -12,8 +12,12 @@ export const getProducts = async () => {
 }
 // get product by Id
 export const getProductById = async (id) => {
-    const response = await api.get(`/products/${id}`)
-    return response.data
+    try {
+        const response = await api.get(`/products/${id}`);
+        return response.data;
+    } catch (error) {
+        return error.response ? error.response.data : { message: 'An error occurred' };
+    }
 }
 
 //create product

@@ -34,6 +34,7 @@ const SalesHistory = () => {
         <table>
                 <thead>
                     <tr>
+                        <th>Customer</th>
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Total Price</th>
@@ -44,6 +45,7 @@ const SalesHistory = () => {
                     {salesHistory.length > 0 ? (
                         salesHistory.map((sale, index) => (
                             <tr key={index}>
+                                <td>{sale.customerName}</td>
                                 <td>{sale.productName}</td>
                                 <td>{sale.quantity}</td>
                                 <td>{sale.totalPrice}</td>

@@ -14,6 +14,7 @@ const ProductList = () => {
     const [ products, setProducts] = useState([])
     const [ totalEarnings, setTotalEarnings ] = useState(0)
     const [filteredProducts, setFilteredProducts] = useState([])
+    const [cart, setCart] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -42,17 +43,53 @@ const ProductList = () => {
         }
     }
 
-  
-
-    //validation kung zero stocks hindi makakabili
-    const onPurchase = (product) => {
+    // pang add to cart with validation kung zero stocks hindi makakabili
+    const addToCart = (product) => {
         if(product.quantity <= 0) {
             toast.error('Out of stock! Cannot proceed with purchase.', { position: 'top-right' })
             return
         }
-        navigate(`/product/purchase/${product._id}`)
-        fetchTotalEarnings();
+        setCart(prevCart => [...prevCart, { ...product, quantity: 1 }]);
+        //ito ay pang add lang if incase na pundutin yung purchase
+        // const existingProduct = cart.find(item => item._id === product._id);
+        // if (existingProduct) {
+        //     setCart(prevCart =>
+        //         prevCart.map(item =>
+        //             item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
+        //         )
+        //     );
+        // } else {
+        //     setCart(prevCart => [...prevCart, { ...product, quantity: 1 }]);
+        // }
     }
+  
+    //para sa purchase
+    const proceedToPurchase = () => {
+        navigate(`/product/purchase`, { state: { cart } })
+    }
+
+    //para makapag remove ng Items sa cart
+    const removeFromCart = (productId) => {
+        setCart(prevCart => prevCart.filter(item => item._id !== productId))
+    }
+    // para makapag dagdag kung ilan bibilhin
+    const adjustQuantity = (productId, amount) => {
+        setCart(prevCart =>
+            prevCart.map(item =>
+                item._id === productId ? { ...item, quantity: Math.max(1, item.quantity + amount) } : item
+            )
+        );
+    };
+
+    // //validation kung zero stocks hindi makakabili
+    // const onPurchase = (product) => {
+    //     if(product.quantity <= 0) {
+    //         toast.error('Out of stock! Cannot proceed with purchase.', { position: 'top-right' })
+    //         return
+    //     }
+    //     navigate(`/purchase/${product._id}`)
+    //     fetchTotalEarnings();
+    // }
 
     //for search
     const handleSearch = (searchTerm) => {
@@ -76,7 +113,7 @@ const ProductList = () => {
                     <li key={product._id}>
                         {product.name} - {product.price} PHP - Stock: {product.quantity}
                         <button onClick={() => navigate(`/product/${product._id}`)}>Details</button>
-                        <button onClick={() => onPurchase(product)}>purchase</button>
+                        <button onClick={() => addToCart(product)}>purchase</button>
                         <button onClick={() => navigate(`/product/update/${product._id}`)}>Update</button>
                     </li>
                 ))}
@@ -84,6 +121,25 @@ const ProductList = () => {
            ) : (
             <p>No product</p>
            )}
+
+           {/* Cart Container */}
+           <div>
+            <h1>Cart</h1>
+            <ul>
+                {cart.map((item, index) => (
+                    <li key={index}>
+                        <p>{item.name} - ${item.price} PHP x {item.quantity}</p>
+                        <button onClick={() => adjustQuantity(item._id, -1)}>-</button>
+                        <button onClick={() => adjustQuantity(item._id, 1)}>+</button>
+                        <button onClick={() => removeFromCart(item._id)}>Remove</button>
+                    </li>
+                ))}
+            </ul>
+
+            {cart.length > 0 && (
+                    <button onClick={proceedToPurchase}>Proceed to Purchase</button>
+            )}
+           </div>
     </div>
   )
 }
