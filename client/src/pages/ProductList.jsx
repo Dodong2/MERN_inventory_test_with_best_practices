@@ -45,22 +45,18 @@ const ProductList = () => {
 
     // pang add to cart with validation kung zero stocks hindi makakabili
     const addToCart = (product) => {
+// kung yung product ay out of stocks hindi makakabili
         if(product.quantity <= 0) {
             toast.error('Out of stock! Cannot proceed with purchase.', { position: 'top-right' })
             return
         }
+
+// kung yung product ay existing nasa loob ng cart
+        if (cart.some((item) => item._id === product._id)) {
+            toast.error('Product is already in the cart.', { position: 'top-right' });
+            return;
+        }
         setCart(prevCart => [...prevCart, { ...product, quantity: 1 }]);
-        //ito ay pang add lang if incase na pundutin yung purchase
-        // const existingProduct = cart.find(item => item._id === product._id);
-        // if (existingProduct) {
-        //     setCart(prevCart =>
-        //         prevCart.map(item =>
-        //             item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
-        //         )
-        //     );
-        // } else {
-        //     setCart(prevCart => [...prevCart, { ...product, quantity: 1 }]);
-        // }
     }
   
     //para sa purchase
@@ -80,16 +76,6 @@ const ProductList = () => {
             )
         );
     };
-
-    // //validation kung zero stocks hindi makakabili
-    // const onPurchase = (product) => {
-    //     if(product.quantity <= 0) {
-    //         toast.error('Out of stock! Cannot proceed with purchase.', { position: 'top-right' })
-    //         return
-    //     }
-    //     navigate(`/purchase/${product._id}`)
-    //     fetchTotalEarnings();
-    // }
 
     //for search
     const handleSearch = (searchTerm) => {
