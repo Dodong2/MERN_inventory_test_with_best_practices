@@ -111,7 +111,7 @@ const ProductList = () => {
             <ul>
                 {filteredProducts.map((product) => (
                     <li key={product._id}>
-                        {product.name} - {product.price} PHP - Stock: {product.quantity}
+                        {product.name} - ₱{product.price} - Stock: {product.quantity}
                         <button onClick={() => navigate(`/product/${product._id}`)}>Details</button>
                         <button onClick={() => addToCart(product)}>purchase</button>
                         <button onClick={() => navigate(`/product/update/${product._id}`)}>Update</button>
@@ -128,7 +128,7 @@ const ProductList = () => {
             <ul>
                 {cart.map((item, index) => (
                     <li key={index}>
-                        <p>{item.name} - ${item.price} PHP x {item.quantity}</p>
+                        <p>{item.name} - ₱{item.price} x {item.quantity}</p>
                         <button onClick={() => adjustQuantity(item._id, -1)}>-</button>
                         <button onClick={() => adjustQuantity(item._id, 1)}>+</button>
                         <button onClick={() => removeFromCart(item._id)}>Remove</button>

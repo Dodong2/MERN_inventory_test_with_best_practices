@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 import { getSalesHistory } from "../services/salesApi"
-// import SearchBar from "../components/SearchBar"
+import SearchBar from "../components/SearchBar"
+import ProductModal from "../components/customer details modal/ProductModal"
 
 const SalesHistory = () => {
 //logics
     const [salesHistory, setSalesHistory] = useState([])
-    // const [search, setSearch] = useState([])
+    const [search, setSearch] = useState([])
+    const [selectedProducts, setSelectedProducts] = useState(null)
 
     useEffect(() => {
         fetchSalesData()
@@ -13,43 +15,55 @@ const SalesHistory = () => {
 
 //get Sales history
     const fetchSalesData = async() => {
-        const history = await getSalesHistory()
-        setSalesHistory(history.sales || [])
-        // setSearch(history.sales || [])
+        try {
+            const history = await getSalesHistory()
+            setSalesHistory(history.sales || [])
+            setSearch(history.sales || [])
+            // console.log(history)
+        } catch (error) {
+            console.error("Error fetching sales history:", error)
+        }
     }
     
-    // const handleSearch = (searchTerm) => {
-    //     const filtered = salesHistory.filter(
-    //         (sale) =>
-    //             sale.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //             sale.customerName.toLowerCase().includes(searchTerm.toLowerCase()) 
-    //     );
-    //     setSearch(filtered);
-    // };
+    const handleSearch = (searchTerm) => {
+        const filtered = salesHistory.filter(
+            (sale) =>
+                (sale.customerName && sale.customerName.toLowerCase().includes(searchTerm.toLowerCase())) 
+        );
+        setSearch(filtered);
+    };
+
+// pang bukas ng modal
+    const handleDetailsClick = (sale) => {
+        setSelectedProducts(sale)
+    }
+
+    const handleCloseModal = () => {
+        setSelectedProducts(null)
+    }
+
 
   return (
     <div>
-        {/* <SearchBar onSearch={handleSearch} placeholder="Search Product or Customer..." /> */}
+        <SearchBar onSearch={handleSearch} placeholder="Search Product or Customer..." />
         <h3>Sales History</h3>
         <table>
                 <thead>
                     <tr>
                         <th>Customer</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
                         <th>Total Price</th>
                         <th>Date</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {salesHistory.length > 0 ? (
-                        salesHistory.map((sale, index) => (
+                    {search.length > 0 ? (
+                        search.map((sale, index) => (
                             <tr key={index}>
                                 <td>{sale.customerName}</td>
-                                <td>{sale.productName}</td>
-                                <td>{sale.quantity}</td>
-                                <td>{sale.totalPrice}</td>
+                                <td>₱{sale.totalAmount}</td>
                                 <td>{sale.createdAt ? new Date(sale.createdAt).toLocaleString() : "No Date"}</td>
+                                <td><button onClick={() => handleDetailsClick(sale)}>Details</button></td>
                             </tr>
                         ))
                     ) : (
@@ -61,6 +75,9 @@ const SalesHistory = () => {
                     )}
                 </tbody>
             </table>
+            {selectedProducts && (
+                <ProductModal sale={selectedProducts} onClose={handleCloseModal}/>
+            )}
     </div>
   )
 }

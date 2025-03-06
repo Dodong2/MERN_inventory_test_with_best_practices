@@ -14,7 +14,7 @@ const PurchaseProduct = () => {
   //   productId: id || "",
   //   quantity: 1,
   // })
-  const [response, setResponse] = useState(null)
+  // const [response, setResponse] = useState(null)
 
   // useEffect(() => {
   //     setPurchaseData((prev) => ({ ...prev, productId: id }))
@@ -36,33 +36,24 @@ const PurchaseProduct = () => {
   // }
 
   //kukunin yung cart data from useLocation
-  const handlePurchase = async () => {
+  const handlePurchase = async (e) => {
+    e.preventDefault()
     if(!customerName.trim()) {
       toast.error('Please enter customer name')
       return
     }
-    
-    let totalAmount = 0
 
-    for (const product of cart) {
       try {
-        const quantity = product.quantity || 1
-        const totalPrice = product.price * quantity
-        totalAmount += totalPrice
-        
-        const result = await purchaseProduct({
-          productId: product._id,
-          quantity,
-          customerName
+        const response = await purchaseProduct({
+          cart, // Send the entire cart sa backend
+          customerName,
         })
-        setResponse(result)
+        toast.success(`Purchase successful! Total amount: ₱${response.salesRecord.totalAmount.toFixed(2)}`)
+        navigate('/')
       } catch (error) {
+        console.error("Error purchasing products:", error);
         console.error("Error purchasing product:", error)
       }
-    }
-
-    toast.success(`Purchase successful! Total amount: $${totalAmount}`)
-    navigate('/')
   }
 
   return (
@@ -95,7 +86,7 @@ const PurchaseProduct = () => {
               <input type="text" name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Enter customer name" required/>
               <button type="submit">Purchase</button>
             </form>
-            {response && (
+            {/* {response && (
               <div>
                 <h2>Purchase Summary</h2>
                 <p>Product: {response.productName}</p>
@@ -106,7 +97,7 @@ const PurchaseProduct = () => {
                 <button>Done</button>
               </Link> 
               </div>
-            )}
+            )} */}
         </div>
     </>
   )

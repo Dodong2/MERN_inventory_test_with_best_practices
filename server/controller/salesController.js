@@ -8,7 +8,7 @@ const getTodaySales = async (req, res) => {
 
         const totalSales = await Sales.aggregate([
             { $match: { createdAt: { $gte: today } } },
-            { $group: { _id: null, total: { $sum: "$totalPrice" } } }
+            { $group: { _id: null, total: { $sum: "$totalAmount" } } }
         ]);
 
         res.status(200).json({ totalSales: totalSales[0]?.total || 0 });
@@ -25,7 +25,7 @@ const getMonthlySales = async (req, res) => {
 
         const totalSales = await Sales.aggregate([
             { $match: { createdAt: { $gte: startOfMonth } } },
-            { $group: { _id: null, total: { $sum: "$totalPrice" } } }
+            { $group: { _id: null, total: { $sum: "$totalAmount" } } }
         ]);
 
         res.status(200).json({ totalSales: totalSales[0]?.total || 0 });

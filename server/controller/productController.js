@@ -80,42 +80,51 @@ const deleteProduct = async (req, res) => {
 
 // Purchase Product (Auto Compute Total & Deduct Stock)
 const purchaseProduct = async (req, res) => {
-    const { productId, quantity, customerName } = req.body
-    
+    const { cart, customerName } = req.body
+
     try {
-        const product = await Product.findById(productId)
+        let totalAmount = 0;
+        const purchaseProducts = []
+        
+        //Process each product in the cart
+        for (const item of cart) {
+            const product = await Product.findById(item._id)
 
-        if(!product) {
-            return res.status(404).json({ message: 'Product not found' })
+            if(!product) {
+                return res.status(404).json({ message: `Product not found: ${item._id}` })
+            }
+
+            if(product.quantity < item.quantity) {
+                return res.status(400).json({ message: `Not enough stock available for ${product.name}` })
+            }
+
+             // Calculate total price for the item
+            const totalPrice = product.price * item.quantity
+            totalAmount += totalPrice
+
+            // Deduct stock
+            product.quantity -= item.quantity
+            await product.save()
+
+            // Add to purchased products
+            purchaseProducts.push({
+                productId: product._id,
+                productName: product.name,
+                quantity: item.quantity,
+                totalPrice,
+            })
         }
 
-        if(product.quantity < quantity) {
-            return res.status(400).json({ message: 'Not enough stock available' })
-        }
-
-        const totalPrice = product.price * quantity
-
-        product.quantity -= quantity
-
-        await product.save()
-
-        //save yung sales record
+        // Save the sales record
         const salesRecord = await Sales.create({
-            productId,
-            productName: product.name,
-            quantity,
-            totalPrice,
+            products: purchaseProducts,
+            totalAmount,
             customerName
         })
 
         res.status(200).json({
             message: 'Purchase successful',
-            productName: product.name,
-            quantityPurchased: quantity,
-            remainingStock: product.quantity,
-            totalPrice,
-            customerName,
-            salesRecord
+            salesRecord,
         })
     } catch(err) {
         console.log(err)
