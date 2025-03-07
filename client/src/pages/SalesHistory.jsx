@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getSalesHistory } from "../services/salesApi"
 import SearchBar from "../components/SearchBar"
-import ProductModal from "../components/customer details modal/ProductModal"
+import ProductModal from "../components/modals/customer details modal/ProductModal"
 
 const SalesHistory = () => {
 //logics

@@ -7,14 +7,19 @@ import 'react-toastify/dist/ReactToastify.css'
 /* services */
 import { getProducts } from '../services/productApi'
 import { getTodaySales } from '../services/salesApi'
+import { validatePIN } from '../services/pin'
 /* components */
 import SearchBar from '../components/SearchBar'
+import PinModal from '../components/modals/PinModal'
 
 const ProductList = () => {
     const [ products, setProducts] = useState([])
     const [ totalEarnings, setTotalEarnings ] = useState(0)
     const [filteredProducts, setFilteredProducts] = useState([])
     const [cart, setCart] = useState([])
+    const [isPinModalOpen, setIsPinModalOpen] = useState(false)
+    const [selectedProductId, setSelectedProductId] = useState(null); // Track selected product ID
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -85,6 +90,29 @@ const ProductList = () => {
         setFilteredProducts(filtered)
     }
 
+// para sa PIN Submit
+    const handlePinSubmit = async (pin) => {
+        setIsLoading(true)
+        try {
+            const isValid = await validatePIN(pin) // Call the backend API to validate PIN
+            if(isValid.success) {
+                navigate(`/product/update/${selectedProductId}`) // Redirect to update page
+            } else {
+                toast.error('Invalid PIN. Please try again.', { position: 'top-right' })
+            }
+        } catch (error) {
+            console.error('Error validating PIN:', error)
+            toast.error('An error occurred. Please try again.', { position: 'top-right' });
+        } finally {
+            setIsLoading(false)
+        }
+    }
+// para sa pag open ng PIN modal
+    const handleUpdateClick = (productId) => {
+        setSelectedProductId(productId)
+        setIsPinModalOpen(true)
+    }
+
   return (
     <div>
         <h1>Invetory Management</h1>
@@ -100,7 +128,7 @@ const ProductList = () => {
                         {product.name} - ₱{product.price} - Stock: {product.quantity}
                         <button onClick={() => navigate(`/product/${product._id}`)}>Details</button>
                         <button onClick={() => addToCart(product)}>purchase</button>
-                        <button onClick={() => navigate(`/product/update/${product._id}`)}>Update</button>
+                        <button onClick={() => handleUpdateClick(product._id)}>Update</button>
                     </li>
                 ))}
             </ul>
@@ -126,6 +154,8 @@ const ProductList = () => {
                     <button onClick={proceedToPurchase}>Proceed to Purchase</button>
             )}
            </div>
+           {/* PIN Modal */}
+           <PinModal isOpen={isPinModalOpen} onClose={() => setIsPinModalOpen(false)} onPinSubmit={handlePinSubmit} isLoading={isLoading}/>
     </div>
   )
 }
