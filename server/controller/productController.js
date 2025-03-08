@@ -1,5 +1,6 @@
 const Product = require('../models/product')
 const Sales = require('../models/sales')
+const StockRecord = require('../models/stockRecord')
 
 //Get all Products
 const getProducts = async (req, res) => {
@@ -47,16 +48,28 @@ const updateProduct = async (req, res) => {
     const { id } = req.params
     
     try {
+        const product = await Product.findById(id)
+
+        if(!product) {
+            return res.status(404).json({ message: 'Product not found' })
+        }
+
+        // Calculate the difference in quantity
+        const quantityAdded = quantity - product.quantity
+
         const updateProduct = await Product.findByIdAndUpdate(id, {
-            name,
-            category,
-            quantity,
-            price,
-            description
-        }, { new: true })   
+            name, category, quantity, price, description }, 
+            { new: true })
 
         if(!updateProduct) {
             res.status(404).json({ message: 'Product not found' })
+        }
+
+        if(quantityAdded > 0) {
+            await StockRecord.create({
+                productId: id,
+                quantityAdded,
+            })
         }
 
         res.status(200).json({ message: 'successfully updated', updateProduct })
@@ -132,11 +145,25 @@ const purchaseProduct = async (req, res) => {
     }
 }
 
+// Get stock records for a product
+const getStockRecords = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const stockRecords = await StockRecord.find({ productId: id }).sort({ timestamp: -1 })
+        res.status(200).json(stockRecords)
+    } catch (err) {
+        console.log(err)
+        res.status(500),json({ message: 'Server error' })
+    }
+}
+
 module.exports = {
     getProducts,
     getProductById,
     createProduct,
     updateProduct,
     deleteProduct,
-    purchaseProduct
+    purchaseProduct,
+    getStockRecords
 }

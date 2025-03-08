@@ -20,6 +20,7 @@ const ProductList = () => {
     const [isPinModalOpen, setIsPinModalOpen] = useState(false)
     const [selectedProductId, setSelectedProductId] = useState(null); // Track selected product ID
     const [isLoading, setIsLoading] = useState(false)
+    const [action, setAction] = useState(null)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -96,7 +97,11 @@ const ProductList = () => {
         try {
             const isValid = await validatePIN(pin) // Call the backend API to validate PIN
             if(isValid.success) {
-                navigate(`/product/update/${selectedProductId}`) // Redirect to update page
+                if(action === 'update') {
+                   navigate(`/product/update/${selectedProductId}`) // Redirect to update page
+                } else if (action === 'add') {
+                    navigate('/add')
+                }    
             } else {
                 toast.error('Invalid PIN. Please try again.', { position: 'top-right' })
             }
@@ -107,17 +112,26 @@ const ProductList = () => {
             setIsLoading(false)
         }
     }
-// para sa pag open ng PIN modal
+
+// para sa pag open ng PIN modal sa update
     const handleUpdateClick = (productId) => {
         setSelectedProductId(productId)
+        setAction('update')
         setIsPinModalOpen(true)
     }
+
+// para sa pag open ng PIN modal sa add
+    const handleAddClick = () => {
+        setAction('add')
+        setIsPinModalOpen(true)
+    }
+
 
   return (
     <div>
         <h1>Invetory Management</h1>
         <h2>Total Earnings: {totalEarnings} PHP</h2>
-        <button onClick={() => navigate('/add')}>add</button>
+        <button onClick={handleAddClick}>add</button>
         <Link to='/sales'><button>View Sales report</button></Link>
         <Link to='/history'><button>View Sales history</button></Link><br/>
         <SearchBar placeholder='Search Product...' onSearch={handleSearch}/>
@@ -155,7 +169,7 @@ const ProductList = () => {
             )}
            </div>
            {/* PIN Modal */}
-           <PinModal isOpen={isPinModalOpen} onClose={() => setIsPinModalOpen(false)} onPinSubmit={handlePinSubmit} isLoading={isLoading}/>
+           <PinModal isOpen={isPinModalOpen} onClose={() => {setIsPinModalOpen(false); setAction(null)}} onPinSubmit={handlePinSubmit} isLoading={isLoading}/>
     </div>
   )
 }

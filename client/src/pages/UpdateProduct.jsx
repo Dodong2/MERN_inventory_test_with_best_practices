@@ -2,10 +2,12 @@ import { useState, useEffect } from "react"
 import { updateProduct, getProductById, deleteProduct } from "../services/productApi"
 import { useParams, useNavigate } from "react-router-dom"
 import { toast } from 'react-toastify'
+import { getStockRecords } from "../services/stockRecordApi"
 
 const UpdateProduct = () => {
     const { id } = useParams()
     const navigate = useNavigate()
+    const [stockRecord, setStockRecord] = useState([])
     const [product, setProduct] = useState({
         name:"",
         price: "",
@@ -24,6 +26,8 @@ const UpdateProduct = () => {
                     quantity: data.quantity,
                     description: data.description
                 })
+                const records = await getStockRecords(id)
+                setStockRecord(records)
             } catch(error) {
                 console.error("Error fetching product:", error);
             }
@@ -70,6 +74,16 @@ const UpdateProduct = () => {
             <button type="submit">Update</button>
         </form>
         <button onClick={() => handleDelete()}>Delete</button>
+
+         {/* Display Stock Records */}
+         <h3>Stock Update History</h3>
+            <ul>
+                {stockRecord.map((record, index) => (
+                    <li key={index}>
+                        {new Date(record.timestamp).toLocaleString()} - Added: {record.quantityAdded}
+                    </li>
+                ))}
+            </ul>
     </>
   )
 }
