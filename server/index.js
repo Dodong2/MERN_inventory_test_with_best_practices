@@ -6,6 +6,7 @@ const productRoutes = require('./routes/productRoutes')
 const salesRoutes = require('./routes/salesRoutes')
 const pinRoutes = require('./routes/pinRoutes')
 const stockRecordRoutes = require('./routes/stockRecordRoutes')
+const authRoutes = require('./routes/authRoutes')
 const app = express()
 
 app.use(express.json())
@@ -23,6 +24,7 @@ app.use('/api/products', productRoutes)
 app.use('/api/sales', salesRoutes)
 app.use('/api/pin', pinRoutes)
 app.use('/api/stock', stockRecordRoutes)
+app.use('/api/auth', authRoutes)
 
 app.listen(PORT, () => {
     console.log(`connected to the ${PORT}`)
