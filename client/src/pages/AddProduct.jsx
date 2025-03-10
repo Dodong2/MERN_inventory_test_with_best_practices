@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { createProduct } from "../services/productApi"
+import { useNavigate } from "react-router-dom"
+import { toast } from 'react-toastify'
 
 const AddProduct = () => {
     const [product, setProduct] = useState({
@@ -9,15 +11,18 @@ const AddProduct = () => {
         price: 0,
         description: "",
     })
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         try {
             await createProduct(product)
-            alert("Product added successfully!")
+            toast.success("Product added successfuly")
+            navigate('/')
         } catch(error) {
             console.error("Error adding product:", error)
         }

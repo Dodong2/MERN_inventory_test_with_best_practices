@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { useParams, Link, useLocation, useNavigate } from "react-router-dom"
+import { useState} from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { purchaseProduct } from "../services/productApi"
 import { toast } from "react-toastify"
 

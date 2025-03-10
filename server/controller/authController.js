@@ -8,15 +8,15 @@ const bcrypt = require('bcrypt')
         try {
             const user = await User.findOne({ email })
             if(!user) {
-               return res.status(404),json({ message: 'user not found' })
+               return res.status(404).json({ message: 'user not found' })
             }
 
             const isMatch = await bcrypt.compare(password, user.password)
             if(!isMatch) {
-                return res.status(400).json({ message: 'Invalid password' })
+                return res.status(401).json({ message: 'Invalid password' })
             }
 
-            res.status(200).json({ message: 'successfuly login', user })
+            res.status(200).json({ success: true , message: 'successfuly login'})
 
         } catch (err) {
             console.error(err)
@@ -32,7 +32,7 @@ const bcrypt = require('bcrypt')
 
             const newUser = new User ({ email, password: hashedPass, pin })
             await newUser.save()
-            res.status(200).json({ message: 'User registered successfully', user: { email: newUser.email } })
+            res.status(200).json({ message: 'User registered successfully'})
 
         } catch(err) {
             console.error(err)
@@ -54,7 +54,7 @@ const bcrypt = require('bcrypt')
                 return res.status(400). json({ message: 'Invalid PIN' })
             }
 
-            res.status(200).json({ message: 'PIN validated', user })
+            res.status(200).json({ message: 'PIN validated'})
 
         } catch(err) {
             console.error(err)

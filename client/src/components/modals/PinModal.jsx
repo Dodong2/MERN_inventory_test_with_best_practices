@@ -3,11 +3,13 @@ import PropTypes from "prop-types"
 
 const PinModal = ({ isOpen, onClose, onPinSubmit, isLoading }) => {
     const [pin, setPin] = useState('')
+
     const handleSubmit = (e) => {
         e.preventDefault()
         onPinSubmit(pin) // Ipapasa ang PIN sa parent component
         setPin('') // I-reset ang input field
     }
+    
     if (!isOpen) return null;
   return (
     <div className="overlay">
