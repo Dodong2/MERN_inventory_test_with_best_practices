@@ -73,7 +73,7 @@ const bcrypt = require('bcrypt')
                 res.status(404).json({ message: 'User not found' })
             }
 
-            const hashedPass = await bcrypt.hash(newPassword, 10)
+            const hashedPass = await bcrypt.hash(password, 10)
             user.password = hashedPass
             await user.save()
 
