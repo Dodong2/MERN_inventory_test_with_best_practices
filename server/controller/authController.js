@@ -42,20 +42,21 @@ const bcrypt = require('bcrypt')
 
 // forget password
     const forgetPassword = async (req, res) => {
-        const { email, pin } = req.body
+        const { pin } = req.body
         
         try {
-            const user = await User.findOne({ email })
+            
+            if(!pin) {
+                return res.status(400). json({ success: false, message: 'Invalid PIN' })                    
+            }
+            const user = await User.findOne({ pin: pin })
+            
             if(!user) {
-                return res.status(404).json({ message: 'User not found' })
+                return res.status(400). json({ success: false, message: 'Invalid PIN' })
             }
 
-            if(!user.pin === pin) {
-                return res.status(400). json({ message: 'Invalid PIN' })
-            }
-
-            res.status(200).json({ message: 'PIN validated'})
-
+            res.status(200).json({ success: true, message: 'PIN validated'})
+            
         } catch(err) {
             console.error(err)
             res.status(500).json({ message: 'Server error' })

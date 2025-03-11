@@ -1,3 +1,4 @@
+/* react notif lib */
 import { useState } from "react"
 import PropTypes from "prop-types"
 
@@ -9,7 +10,7 @@ const PinModal = ({ isOpen, onClose, onPinSubmit, isLoading }) => {
         onPinSubmit(pin) // Ipapasa ang PIN sa parent component
         setPin('') // I-reset ang input field
     }
-    
+
     if (!isOpen) return null;
   return (
     <div className="overlay">

@@ -12,6 +12,7 @@ function App() {
   const UpdateProduct = lazy(() => import('./pages/UpdateProduct'))
   const SalesPage = lazy(() => import('./pages/SalesPage'))
   const SalesHistory = lazy(() => import('./pages/SalesHistory'))
+  const ForgetPassword = lazy(() => import('./pages/ForgetPassword'))
   const Login = lazy(() => import ('./pages/Login'))
 
   return (
@@ -21,6 +22,7 @@ function App() {
       <Suspense fallback={<div>Loading</div>}>
         <Routes>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/forget' element={<ForgetPassword/>}/>
           <Route path='/' element={<ProductList/>}/>
           <Route path='/product/:id' element={<ProductDetails/>}/>
           <Route path='/product/update/:id' element={<UpdateProduct/>}/>
