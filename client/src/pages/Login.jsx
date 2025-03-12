@@ -1,56 +1,9 @@
-/* react lib */
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-/* services */
-import { LoginAuth } from '../services/AuthApi'
-import { forgetPassword } from '../services/pin'
-/* react notif lib */
-import { toast } from 'react-toastify'
-/* components */
+import { useLogin } from '../hooks/login hooks/useLogin';
 import ForgetPassModal from '../components/modals/ForgetPassModal'
 
 const Login = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const navigate = useNavigate()
-    const [error, setError] = useState("")
-    const [isModal, setModal] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const { email, setEmail, password, setPassword, error, setError, isModal, isLoading, handleLogin, handleSubmitPin, handleModalOpen, handleModalClose } = useLogin()
 
-    const handleLogin = async (e) => {
-        e.preventDefault()
-        try {
-            const login = await LoginAuth(email, password)
-            if(login.success) {
-                navigate('/list')
-                toast.success("successfully login", { position: 'top-right' })
-            } else {
-                setError("email or password error")
-            }
-        } catch(error) {
-            console.error("Error login:", error)
-        }
-    }
-
-    //pang handle ng pin
-    const handleSubmitPin = async(pin) => {
-        setIsLoading(true)
-        const validPin = await forgetPassword(pin)
-        if(validPin.success) {
-            navigate('/forget')
-        } else {
-            toast.error("Invalid PIN. Please try again.", { position: 'top-right' })
-        }
-        setIsLoading(false)
-    }
-
-    const handleModalOpen = () => {
-        setModal(true)
-    }
-
-    const handleModalClose = () => {
-        setModal(false)
-    }
     
   return (
     <div>

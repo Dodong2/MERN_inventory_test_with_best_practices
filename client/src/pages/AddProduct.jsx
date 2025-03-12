@@ -1,32 +1,8 @@
-import { useState } from "react"
-import { createProduct } from "../services/productApi"
-import { useNavigate } from "react-router-dom"
-import { toast } from 'react-toastify'
+import { useAdd } from "../hooks/add product hooks/useAdd"
 
 const AddProduct = () => {
-    const [product, setProduct] = useState({
-        name: "",
-        category: "",
-        quantity: 0,
-        price: 0,
-        description: "",
-    })
-    const navigate = useNavigate()
+    const { handleChange, handleSubmit } = useAdd()
 
-    const handleChange = (e) => {
-        setProduct({ ...product, [e.target.name]: e.target.value })
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            await createProduct(product)
-            toast.success("Product added successfuly")
-            navigate('/list')
-        } catch(error) {
-            console.error("Error adding product:", error)
-        }
-    }
   return (
     <>
         <div>
