@@ -22,7 +22,7 @@ const Login = () => {
         try {
             const login = await LoginAuth(email, password)
             if(login.success) {
-                navigate('/')
+                navigate('/list')
                 toast.success("successfully login", { position: 'top-right' })
             } else {
                 setError("email or password error")

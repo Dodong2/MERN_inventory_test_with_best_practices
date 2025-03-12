@@ -22,7 +22,7 @@ const AddProduct = () => {
         try {
             await createProduct(product)
             toast.success("Product added successfuly")
-            navigate('/')
+            navigate('/list')
         } catch(error) {
             console.error("Error adding product:", error)
         }

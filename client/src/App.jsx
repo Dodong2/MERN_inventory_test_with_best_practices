@@ -21,9 +21,9 @@ function App() {
      <Router>
       <Suspense fallback={<div>Loading</div>}>
         <Routes>
-          <Route path='/login' element={<Login/>}/>
+          <Route path='/' element={<Login/>}/>
           <Route path='/forget' element={<ForgetPassword/>}/>
-          <Route path='/' element={<ProductList/>}/>
+          <Route path='/list' element={<ProductList/>}/>
           <Route path='/product/:id' element={<ProductDetails/>}/>
           <Route path='/product/update/:id' element={<UpdateProduct/>}/>
           <Route path='/product/purchase' element={<PurchaseProduct/>}/>

@@ -46,7 +46,7 @@ const UpdateProduct = () => {
         try {
             await updateProduct(id, product)
             toast.success("Product updated successfully!")
-            navigate('/')
+            navigate('/list')
         } catch(error) {
             console.error("Error updating product:", error);
         }
@@ -57,7 +57,7 @@ const UpdateProduct = () => {
             if(window.confirm("Are you sure you want to delete this product?")) {
             try {
                 await deleteProduct(id)
-                navigate('/')
+                navigate('/list')
             } catch(error) {
                 console.error('Error Delete products', error)
             }

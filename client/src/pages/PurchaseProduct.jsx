@@ -1,60 +1,7 @@
-import { useState} from "react"
-import { useLocation, useNavigate } from "react-router-dom"
-import { purchaseProduct } from "../services/productApi"
-import { toast } from "react-toastify"
+import { usePurchase } from "../hooks/purchase product hooks/usePurchase"
 
 const PurchaseProduct = () => {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const cart = location.state?.cart || []
-  const [customerName, setCustomerName] = useState("")
-  // const { id } = useParams()
-
-  // const [purchaseData, setPurchaseData] = useState({
-  //   productId: id || "",
-  //   quantity: 1,
-  // })
-  // const [response, setResponse] = useState(null)
-
-  // useEffect(() => {
-  //     setPurchaseData((prev) => ({ ...prev, productId: id }))
-  // }, [id])
-
-  // //pang onchange
-  // const handleChange = (e) => {
-  //   setPurchaseData({...purchaseData, [e.target.name]: e.target.value })
-  // }
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     const result = await purchaseProduct(purchaseData)
-  //     setResponse(result)
-  //   } catch(error) {
-  //     console.error("Error purchasing product:", error)
-  //   }
-  // }
-
-  //kukunin yung cart data from useLocation
-  const handlePurchase = async (e) => {
-    e.preventDefault()
-    if(!customerName.trim()) {
-      toast.error('Please enter customer name')
-      return
-    }
-
-      try {
-        const response = await purchaseProduct({
-          cart, // Send the entire cart sa backend
-          customerName,
-        })
-        toast.success(`Purchase successful! Total amount: ₱${response.salesRecord.totalAmount.toFixed(2)}`)
-        navigate('/')
-      } catch (error) {
-        console.error("Error purchasing products:", error);
-        console.error("Error purchasing product:", error)
-      }
-  }
+  const { setCustomerName, handlePurchase, cart, customerName } = usePurchase()
 
   return (
     <>
@@ -86,18 +33,6 @@ const PurchaseProduct = () => {
               <input type="text" name="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Enter customer name" required/>
               <button type="submit">Purchase</button>
             </form>
-            {/* {response && (
-              <div>
-                <h2>Purchase Summary</h2>
-                <p>Product: {response.productName}</p>
-                <p>Quantity {response.quantityPurchased}</p>
-                <p>Total Price: {response.totalPrice}</p>
-                <p>Remaining Stock: {response.remainingStock}</p>
-                <Link to='/'>
-                <button>Done</button>
-              </Link> 
-              </div>
-            )} */}
         </div>
     </>
   )
