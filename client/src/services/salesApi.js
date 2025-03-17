@@ -43,3 +43,25 @@ export const deleteSales = async ()=> {
         return error.response ? error.response.data : { message: 'An error occurred' }
     }
 }
+
+//Get all customers
+export const getAllCustomer = async() => {
+    try {
+        const response = await api.get('/sales/customers')
+        return response.data
+    } catch(error) {
+        console.error(error)
+        return error.response ? error.response.data : { message: 'An error occurred' } 
+    }
+}
+
+//Get all recent sold product
+export const getRecentSoldProducts = async() => {
+    try {
+        const response = await api.get('sales/recent')
+        return response.data
+    } catch(error) {
+        console.error(error)
+        return error.response ? error.response.data : { message: 'An error occurred' } 
+    }
+}

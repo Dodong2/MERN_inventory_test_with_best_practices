@@ -57,4 +57,37 @@ const deleteSales = async (req, res) => {
     }
 };
 
-module.exports = { getTodaySales, getMonthlySales, getSalesHistory, deleteSales };
+//Get all customers
+const getAllCustomers = async(req, res) => {
+    try {
+        const uniqueCustomer = await Sales.distinct('customerName')
+        const customerCount = uniqueCustomer.length
+        res.status(200).json({ customerCount })
+    } catch(err) {
+        console.error(err)
+        res.status(500).json({ message: "Server Error" })
+    }
+}
+
+//Get all recent product
+const getRecentSoldProducts = async(req, res) => {
+    try {
+        const recentProducts = await Sales.aggregate([
+            { $unwind: "$products" }, 
+            { $sort: { createdAt: -1 } },
+            { $limit: 10 },
+            {
+                $project: {
+                    _id: 0,
+                    productName: "$products.productName",
+                    quantity: "$products.quantity"
+                }
+            }
+        ])
+        res.status(200).json({ recentProducts })
+    } catch(err) {
+        res.status(500).json({ message: "Server error" })
+    }
+}
+
+module.exports = { getTodaySales, getMonthlySales, getSalesHistory, deleteSales, getAllCustomers, getRecentSoldProducts };
