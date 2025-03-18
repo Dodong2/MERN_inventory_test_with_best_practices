@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react"
-import { getTodaySales, getMonthlySales, getAllCustomer, getRecentSoldProducts } from "../../services/salesApi"
+import { getTodaySales, getMonthlySales, getAllCustomer, getRecentSoldProducts, getLastMonthSales } from "../../services/salesApi"
 
 export const useSalesPage = () => {
     const [todaySales, setTodaySales] = useState(0)
     const [monthlySale, setMonthlySales] = useState(0)
     const [customerCount, setCustomerCount] = useState(0)
     const [recentSoldProducts, setRecentSoldProducts] = useState([])
+    const [lastMonth, setLastMonth] = useState([])
 
     useEffect(() => {
         fetchSalesData()
         fetchCustomerCount()
         fetchRecentSold()
+        fetchLastMonth()
     }, [])
 
+    //get lahat ng today at monthly sales
     const fetchSalesData = async () => {
         const today = await getTodaySales()
         const month = await getMonthlySales()
@@ -29,12 +32,18 @@ export const useSalesPage = () => {
         const count = await getAllCustomer()
         setCustomerCount(count.customerCount)
     }
-    
+
+    //get lahat ng recent na sold na products
     const fetchRecentSold = async() => {
         const recentSold = await getRecentSoldProducts()
         setRecentSoldProducts(recentSold.recentProducts)
-        console.log(recentSold.recentProducts)
     }
 
-return { todaySales, monthlySale, customerCount, recentSoldProducts }
+    // Get yung Last Month Sales
+    const fetchLastMonth = async() => {
+        const lastMonthSale = await getLastMonthSales()
+        setLastMonth(lastMonthSale)
+    }
+
+return { todaySales, monthlySale, customerCount, recentSoldProducts, lastMonth }
 }

@@ -21,7 +21,8 @@ export const useSalesHistory = () => {
                 console.error("Error fetching sales history:", error)
             }
         }
-        
+
+    // pang searchbar
         const handleSearch = (searchTerm) => {
             const filtered = salesHistory.filter(
                 (sale) =>

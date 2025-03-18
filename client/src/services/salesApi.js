@@ -65,3 +65,14 @@ export const getRecentSoldProducts = async() => {
         return error.response ? error.response.data : { message: 'An error occurred' } 
     }
 }
+
+// Get all last month
+export const getLastMonthSales = async() => {
+    try {
+        const response = await api.get('/sales/lastmonth')
+        return response.data
+    } catch(error) {
+        console.error(error)
+        return error.response ? error.response.data : { message: 'An error occurred' } 
+    }
+}

@@ -70,14 +70,14 @@ const bcrypt = require('bcrypt')
         try {
             const user = await User.findOne({ email })
             if(!user) {
-                res.status(404).json({ message: 'User not found' })
+               return res.status(404).json({ message: 'User not found' })
             }
 
             const hashedPass = await bcrypt.hash(password, 10)
             user.password = hashedPass
             await user.save()
 
-            res.status(200).json({ message: 'password changed successfully ' })
+            res.status(200).json({ message: 'password changed successfully ', success: true })
         } catch(err) {
             console.error(err)
             res.status(500).json({ message: 'Server error' })
