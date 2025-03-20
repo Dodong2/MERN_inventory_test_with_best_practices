@@ -21,11 +21,14 @@ export const useLogin = () => {
             if(login.success) {
                 navigate('/list')
                 toast.success("successfully login", { position: 'top-right' })
+                return {success: true}
             } else {
                 setError("email or password error")
+                return {success: false}
             }
         } catch(error) {
             console.error("Error login:", error)
+            return {success: false}
         }
     }
 
@@ -50,5 +53,18 @@ export const useLogin = () => {
     const handleModalClose = () => {
         setModal(false)
     }
-    return { email, setEmail, password, setPassword, error, setError, isModal, isLoading, handleLogin, handleSubmitPin, handleModalOpen, handleModalClose }
+
+    return { 
+        email, 
+        setEmail, 
+        password, 
+        setPassword, 
+        error, 
+        setError, 
+        isModal, 
+        isLoading, 
+        handleLogin, 
+        handleSubmitPin, 
+        handleModalOpen, 
+        handleModalClose }
 }
