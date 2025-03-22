@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useProducts } from "./useProducts";
+import { useNavigate } from "react-router-dom";
 
 export const useCart = () => {
     const [cart, setCart] = useState([])
     const { products } = useProducts()
+    const [isCartOpen, setIsCartOpen] = useState(false)
+    const navigate = useNavigate()
 
     // pang add to cart with validation kung zero stocks hindi makakabili
     const addToCart = (product) => {
@@ -49,6 +52,22 @@ export const useCart = () => {
             })
             .filter(item => item !== null)
         )
-    };
-    return { cart, addToCart, removeFromCart, adjustQuantity }
+    }
+
+    // pang open ng cart
+    const toggleCart = () => {
+        setIsCartOpen(!isCartOpen)
+    }
+
+    //para makapag proceed sa purchase page
+    const proceedToPurchase = () => {
+        if(cart.length === 0) {
+            toast.error("No products in the cart!")
+            return
+        }
+        navigate(`/product/purchase`, { state: { cart } })
+    }
+
+
+    return { cart, addToCart, removeFromCart, adjustQuantity, toggleCart, isCartOpen, proceedToPurchase }
 }

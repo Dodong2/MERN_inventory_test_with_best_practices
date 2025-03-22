@@ -1,8 +1,12 @@
+/* react lib */
 import { lazy, Suspense, useState} from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+/* react notif lib */
 import { ToastContainer } from 'react-toastify'
+/* styles */
+/* protected route */
 import ProtectedRoute from './hooks/Route/ProtectedRoute';
-import './App.css'
+import './assets/App.css'
 
 function App() {
   const ProductList = lazy(() => import('./pages/ProductList'))
@@ -26,9 +30,8 @@ function App() {
      <Router>
       <Suspense fallback={<div>Loading</div>}>
         <Routes>
+          {/* Public Routes */}
           <Route path='/' element={<Login onLogin={handleLogin}/>}/>
-          
-          
           
           {/* Protected Routes */}
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated}/>}>
