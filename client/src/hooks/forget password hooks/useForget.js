@@ -20,9 +20,13 @@ export const useForget = () => {
     
         try {
             const response = await changePass(email, password)
+            if(!response.success) {
+              toast.error('invalid email')
+            } else {
             setMessage(response.message)
             toast.success("Change password successfuly")
             navigate('/')
+            }
         } catch(error) {
           console.error(error)
           setMessage("Error changing password")

@@ -33,10 +33,10 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path='/' element={<Login onLogin={handleLogin}/>}/>
+          <Route path='/forget' element={<ForgetPassword/>}/>
           
           {/* Protected Routes */}
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated}/>}>
-          <Route path='/forget' element={<ForgetPassword/>}/>
           <Route path='/add' element={<AddProduct/>}/>
           <Route path='/list' element={<ProductList/>}/>
           <Route path='/sales' element={<SalesPage/>}/>
