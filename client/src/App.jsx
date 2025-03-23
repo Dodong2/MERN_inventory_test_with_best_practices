@@ -3,10 +3,14 @@ import { lazy, Suspense, useState} from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 /* react notif lib */
 import { ToastContainer } from 'react-toastify'
-/* styles */
 /* protected route */
 import ProtectedRoute from './hooks/Route/ProtectedRoute';
-import './assets/App.css'
+/* styles */
+import './assets/css/App.css'
+import './assets/css/color.css'
+import './assets/css/default.css'
+import './assets/css/media.css'
+
 
 function App() {
   const ProductList = lazy(() => import('./pages/ProductList'))

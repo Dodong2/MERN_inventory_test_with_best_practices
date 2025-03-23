@@ -1,0 +1,20 @@
+/*--------------------(  Colors CSS  )--------------------*/
+:root {
+    /* Primary colors */
+  --primary-light: #F5F5F5;
+  --primary-black: #1A1A1A;
+  --primary-gray: #A69494;
+  
+  --primary-red: #CF2945;
+  --primary-skyblue:#00AEEF;
+  --primary-violet: #FED0EE;
+
+  /* Secondary colors */
+  --secondary-gray: #B9B9B9;
+  --secondary-red: #F60000;
+  --secondary-skyblue:#00AEEF;
+  
+  /* Tertiary colors */
+  --tertiary-red: #FB002A;
+  --tertiary-gray: #999999;
+}
