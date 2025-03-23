@@ -12,6 +12,8 @@ export const useLogin = () => {
     const [error, setError] = useState("")
     const [isModal, setModal] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [showpass, setshowpass] = useState(false)
+    const [changeicon, setchangeicon] = useState(true)
 
 //login
     const handleLogin = async (e) => {
@@ -23,7 +25,7 @@ export const useLogin = () => {
                 toast.success("successfully login", { position: 'top-right' })
                 return {success: true}
             } else {
-                setError("email or password error")
+                setError("Your email or password is incorrect. Please try again.")
                 return {success: false}
             }
         } catch(error) {
@@ -54,6 +56,16 @@ export const useLogin = () => {
         setModal(false)
     }
 
+    //pang show ng pass
+    const tgglePass = () => {
+      setshowpass(!showpass)
+    }
+
+    //pang change ng icon para sa pass
+    const tggleicons = () => {
+      setchangeicon(!changeicon)
+    }
+
     return { 
         email, 
         setEmail, 
@@ -66,5 +78,10 @@ export const useLogin = () => {
         handleLogin, 
         handleSubmitPin, 
         handleModalOpen, 
-        handleModalClose }
+        handleModalClose, 
+        tgglePass,
+        tggleicons,
+        showpass,
+        changeicon
+    }
 }

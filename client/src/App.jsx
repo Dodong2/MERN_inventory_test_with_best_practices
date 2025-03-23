@@ -6,10 +6,7 @@ import { ToastContainer } from 'react-toastify'
 /* protected route */
 import ProtectedRoute from './hooks/Route/ProtectedRoute';
 /* styles */
-import './assets/css/App.css'
-import './assets/css/color.css'
-import './assets/css/default.css'
-import './assets/css/media.css'
+
 
 
 function App() {
