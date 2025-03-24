@@ -1,7 +1,7 @@
-import { useSalesPage } from "../hooks/sales page hooks/useSalesPage"
+import { useOverview } from "../hooks/overview hooks/useOverview"
 
-const SalesPage = () => {
-  const { todaySales, monthlySale, customerCount, recentSoldProducts, lastMonth } = useSalesPage()    
+const Overview = () => {
+  const { todaySales, monthlySale, customerCount, recentSoldProducts, lastMonth } = useOverview()    
 
   return (
     <div>
@@ -22,10 +22,8 @@ const SalesPage = () => {
             <p>{lastMonth.month}</p>
             <p>{lastMonth.totalSales}</p>
             <p>{lastMonth.totalCustomer}</p>
-       
-        
     </div>
   )
 }
 
-export default SalesPage
+export default Overview

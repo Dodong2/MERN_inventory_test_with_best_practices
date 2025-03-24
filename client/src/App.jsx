@@ -14,8 +14,9 @@ function App() {
   const AddProduct = lazy(() => import('./pages/AddProduct'))
   const ProductDetails = lazy(() => import('./pages/ProductDetails'))
   const PurchaseProduct = lazy(() => import('./pages/PurchaseProduct'))
+  const Purchase = lazy(() => import('./pages/Purchase'))
   const UpdateProduct = lazy(() => import('./pages/UpdateProduct'))
-  const SalesPage = lazy(() => import('./pages/SalesPage'))
+  const Overview = lazy(() => import('./pages/Overview'))
   const SalesHistory = lazy(() => import('./pages/SalesHistory'))
   const ForgetPassword = lazy(() => import('./pages/ForgetPassword'))
   const Login = lazy(() => import ('./pages/Login'))
@@ -35,11 +36,13 @@ function App() {
           <Route path='/' element={<Login onLogin={handleLogin}/>}/>
           <Route path='/forget' element={<ForgetPassword/>}/>
           
+          
           {/* Protected Routes */}
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated}/>}>
+          <Route path='/overview' element={<Overview/>}/>
+          <Route path='/purchase' element={<Purchase/>}/>
           <Route path='/add' element={<AddProduct/>}/>
           <Route path='/list' element={<ProductList/>}/>
-          <Route path='/sales' element={<SalesPage/>}/>
           <Route path='/history' element={<SalesHistory/>}/>
           <Route path='/product/:id' element={<ProductDetails/>}/>
           <Route path='/product/update/:id' element={<UpdateProduct/>}/>

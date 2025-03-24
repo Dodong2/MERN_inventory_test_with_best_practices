@@ -21,7 +21,7 @@ export const useLogin = () => {
         try {
             const login = await LoginAuth(email, password)
             if(login.success) {
-                navigate('/list')
+                navigate('/overview')
                 toast.success("successfully login", { position: 'top-right' })
                 return {success: true}
             } else {

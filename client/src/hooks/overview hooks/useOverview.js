@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { getTodaySales, getMonthlySales, getAllCustomer, getRecentSoldProducts, getLastMonthSales } from "../../services/salesApi"
 
-export const useSalesPage = () => {
+export const useOverview = () => {
     const [todaySales, setTodaySales] = useState(0)
     const [monthlySale, setMonthlySales] = useState(0)
     const [customerCount, setCustomerCount] = useState(0)
