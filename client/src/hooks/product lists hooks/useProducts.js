@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getProducts } from "../../services/productApi";
 import { getTodaySales } from "../../services/salesApi";
 
@@ -34,12 +34,12 @@ export const useProducts = () => {
         }
     
     //for search
-    const handleSearch = (searchTerm) => {
+    const handleSearch = useCallback((searchTerm) => {
         const filtered = products.filter((product) => (
             product.name.toLowerCase().includes(searchTerm.toLowerCase()))
         )
         setFilteredProducts(filtered)
-    }
+    }, [products])
 
 
     return { products, filteredProducts, handleSearch, totalEarnings }
