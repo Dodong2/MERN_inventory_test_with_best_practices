@@ -20,6 +20,8 @@ function App() {
   const SalesHistory = lazy(() => import('./pages/SalesHistory'))
   const ForgetPassword = lazy(() => import('./pages/ForgetPassword'))
   const Login = lazy(() => import ('./pages/Login'))
+  const Layout = lazy(() => import ('./components/Layout'))
+  // const Navbar = lazy(() => import ('./components/Navbar'))
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   
   const handleLogin = () => {
@@ -39,6 +41,7 @@ function App() {
           
           {/* Protected Routes */}
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated}/>}>
+          <Route element={<Layout/>}>
           <Route path='/overview' element={<Overview/>}/>
           <Route path='/purchase' element={<Purchase/>}/>
           <Route path='/add' element={<AddProduct/>}/>
@@ -48,6 +51,7 @@ function App() {
           <Route path='/product/update/:id' element={<UpdateProduct/>}/>
           <Route path='/product/purchase' element={<PurchaseProduct/>}/>
           
+        </Route>
         </Route>
         </Routes>
       </Suspense>
