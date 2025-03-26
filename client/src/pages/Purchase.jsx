@@ -23,7 +23,7 @@
         
 
         return (
-            <div>
+            <div className="border ml-[14rem] mt-[3.5rem]">
                 
 
                 {/* Cart button */}

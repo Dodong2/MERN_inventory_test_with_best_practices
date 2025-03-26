@@ -6,9 +6,9 @@ const Layout = () => {
     const location = useLocation()
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="flex">
         <Sidebar/>
-        <div style={{ flex: 1, padding: '20px' }}>
+        <div className="flex-1 p-5">
             <Outlet/>
             <Navbar location={location}/>
         </div>

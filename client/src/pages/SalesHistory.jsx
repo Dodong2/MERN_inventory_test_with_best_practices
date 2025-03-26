@@ -5,7 +5,7 @@ import { useSalesHistory } from "../hooks/sales history hooks/useSalesHistory"
 const SalesHistory = () => {
     const { handleSearch, search, handleDetailsClick, selectedProducts, handleCloseModal } = useSalesHistory()
   return (
-    <div>
+    <div className="border ml-[14rem] mt-[3.5rem]">
         <SearchBar onSearch={handleSearch} placeholder="Search Product or Customer..." />
         <h3>Sales History</h3>
         <table>

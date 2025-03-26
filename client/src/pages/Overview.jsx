@@ -4,7 +4,7 @@ const Overview = () => {
   const { todaySales, monthlySale, customerCount, recentSoldProducts, lastMonth } = useOverview()    
 
   return (
-    <div>
+    <div className="border ml-[14rem] mt-[3.5rem]">
         <h2>Sales Report</h2>
         <p>Todays Sales: <strong>₱{todaySales}</strong></p>
         <p>Monthly Sales: <strong>₱{monthlySale}</strong></p>
