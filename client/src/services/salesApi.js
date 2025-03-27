@@ -7,72 +7,94 @@ export const getTodaySales = async () => {
     try {
         const response = await api.get('/sales/today')
         return response.data
-    } catch(error) {
+    } catch (error) {
         return error.response ? error.response.data : { message: 'An error occurred' }
     }
 }
 
 //Get yung total sales sa current month
-export const getMonthlySales = async() => {
+export const getMonthlySales = async () => {
     try {
         const response = await api.get('/sales/month')
         return response.data
-    } catch(error) {
+    } catch (error) {
         console.error(error)
         return error.response ? error.response.data : { message: 'An error occurred' }
     }
 }
 
 //Get yung sales history
-export const getSalesHistory = async() => {
+export const getSalesHistory = async () => {
     try {
         const response = await api.get('/sales/history')
         return response.data
-    } catch(error) {
+    } catch (error) {
         console.error(error)
-        return error.response ? error.response.data : { message: 'An error occurred' } 
+        return error.response ? error.response.data : { message: 'An error occurred' }
     }
 }
 
 //Delete yung lahat ng sales
-export const deleteSales = async ()=> {
+export const deleteSales = async () => {
     try {
         const response = await api.delete('/sales/delete')
         return response.data
-    } catch(error) {
+    } catch (error) {
         return error.response ? error.response.data : { message: 'An error occurred' }
     }
 }
 
 //Get all customers
-export const getAllCustomer = async() => {
+export const getAllCustomer = async () => {
     try {
         const response = await api.get('/sales/customers')
         return response.data
-    } catch(error) {
+    } catch (error) {
         console.error(error)
-        return error.response ? error.response.data : { message: 'An error occurred' } 
+        return error.response ? error.response.data : { message: 'An error occurred' }
     }
 }
 
 //Get all recent sold product
-export const getRecentSoldProducts = async() => {
+export const getRecentSoldProducts = async () => {
     try {
         const response = await api.get('sales/recent')
         return response.data
-    } catch(error) {
+    } catch (error) {
         console.error(error)
-        return error.response ? error.response.data : { message: 'An error occurred' } 
+        return error.response ? error.response.data : { message: 'An error occurred' }
     }
 }
 
 // Get all last month
-export const getLastMonthSales = async() => {
+export const getLastMonthSales = async () => {
     try {
         const response = await api.get('/sales/lastmonth')
         return response.data
-    } catch(error) {
+    } catch (error) {
         console.error(error)
-        return error.response ? error.response.data : { message: 'An error occurred' } 
+        return error.response ? error.response.data : { message: 'An error occurred' }
+    }
+}
+
+//Get kung sinong buwan ang may pinakamataas na kita
+export const getTopSalesPeryear = async () => {
+    try {
+        const response = await api.get('/sales/topsales')
+        return response.data
+    } catch (error) {
+        console.error(error)
+        return error.response ? error.response.data : { message: 'An error occurred' }
+    }
+}
+
+
+//Get all ng recent customer name
+export const getRecentCustomer = async () => {
+    try {
+        const response = await api.get('/sales/recentcustomer')
+        return response.data
+    } catch (error) {
+        return error.response ? error.response.data : { message: 'An error occurred' }
     }
 }

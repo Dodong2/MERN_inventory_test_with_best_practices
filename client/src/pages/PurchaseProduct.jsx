@@ -5,7 +5,7 @@ const PurchaseProduct = () => {
 
   return (
     <>
-        <div>
+        <div className="border ml-[14rem] mt-[3.5rem]">
             <h1>Purchase Product</h1>
             <form onSubmit={handlePurchase}>
               <table>

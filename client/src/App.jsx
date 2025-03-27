@@ -30,7 +30,7 @@ function App() {
     <>
       <ToastContainer />
       <Router>
-        <div>
+        <div className="bg-[#F5F5F5]">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Login onLogin={handleLogin} />} />

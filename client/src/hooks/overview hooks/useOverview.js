@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getTodaySales, getMonthlySales, getAllCustomer, getRecentSoldProducts, getLastMonthSales } from "../../services/salesApi"
+import { getTodaySales, getMonthlySales, getAllCustomer, getRecentSoldProducts, getLastMonthSales, getRecentCustomer } from "../../services/salesApi"
 
 export const useOverview = () => {
     const [todaySales, setTodaySales] = useState(0)
@@ -7,12 +7,14 @@ export const useOverview = () => {
     const [customerCount, setCustomerCount] = useState(0)
     const [recentSoldProducts, setRecentSoldProducts] = useState([])
     const [lastMonth, setLastMonth] = useState([])
+    const [recentCustomerName, setRecentCustomerName] = useState([])
 
     useEffect(() => {
         fetchSalesData()
         fetchCustomerCount()
         fetchRecentSold()
         fetchLastMonth()
+        fetchRecentCustomer()
     }, [])
 
     //get lahat ng today at monthly sales
@@ -45,5 +47,10 @@ export const useOverview = () => {
         setLastMonth(lastMonthSale)
     }
 
-return { todaySales, monthlySale, customerCount, recentSoldProducts, lastMonth }
+    const fetchRecentCustomer = async() => {
+        const recentCustomers = await getRecentCustomer()
+        setRecentCustomerName(recentCustomers.recentCustomer)
+    }
+
+return { todaySales, monthlySale, customerCount, recentSoldProducts, lastMonth, recentCustomerName }
 }

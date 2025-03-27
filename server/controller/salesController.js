@@ -156,6 +156,68 @@ const getRecentSoldProducts = async(req, res) => {
     }
 }
 
+//Get kung sinong buwan ang may pinakamataas na kita
+const getTopSalesPeryear = async(req, res) => {
+    try {
+        const salesData = await Sales.aggregate([
+            {
+                $group: { 
+                    _id: { 
+                       year: { $year: "$createdAt" }, 
+                        month: { $month: "$createdAt" }
+                    },
+                    totalSales: { $sum: "$totalAmount" }
+            }
+            },
+            {
+                $sort: { "_id.year": 1, "totalSales": -1 }
+            },
+            {
+                $group: {
+                    _id: "$_id.year",
+                    months: { $push: { month: "$_id.month", totalSales: "$totalSales" }}
+                }
+            }
+        ])
+
+        const formattedData = salesData.map(yearData => {
+            const fullMonths = Array.from({ length: 12 }, (_, i) => ({
+                month: i + 1,
+                totalSales: 0
+            }))
+            yearData.months.forEach(sale => {
+                fullMonths[sale.month - 1].totalSales = sale.totalSales
+            })
+            return{
+                year: yearData._id,
+                months: fullMonths
+            }
+        })
+        res.status(200).json(formattedData)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Server Error" })
+    }
+}
+
+//Get all ng recent customer name
+const getRecentCutomerName = async(req, res) => {
+    try{
+        const recentCustomer = await Sales.aggregate([
+            {$unwind: "$customerName"},
+            { $sort: { createdAt: -1 } },
+            { $limit: 10 },
+            {$project: {
+                _id: 0,
+                customerName: "$customerName"
+            }}
+        ])
+        res.status(200).json({ recentCustomer })
+    } catch(err) {
+        res.status(500).json({ message: "Server Error" })
+    }
+}
+
 module.exports = { 
     getTodaySales, 
     getMonthlySales, 
@@ -163,5 +225,7 @@ module.exports = {
     deleteSales, 
     getAllCustomers, 
     getRecentSoldProducts, 
-    getLastMonthSales
+    getLastMonthSales,
+    getRecentCutomerName,
+    getTopSalesPeryear
  };
