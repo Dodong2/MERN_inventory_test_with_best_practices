@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react"
 import propTypes from 'prop-types'
 import { debounce } from 'lodash';
-
+/* Icons */
+import { FaSearch } from "react-icons/fa";
 
 const SearchBar = ({ onSearch }) => {
     const [search, setSearch] = useState("")
@@ -26,8 +27,11 @@ const SearchBar = ({ onSearch }) => {
     }, [debouncedSearch])
 
   return (
-    <div>
-        <input type="text" onChange={handleChange} value={search} placeholder="Search..."  />
+    <div className="flex w-[25rem] items-center rounded-full p-2 bg-white shadow-md border-2 border-blue-400 focus:outline-sky-50">
+      <FaSearch className="text-blue-500 mr-2" />
+        <input type="text" onChange={handleChange} value={search} placeholder="Search..."  
+          className="flex-grow outline-none text-blue-400"
+        />
     </div>
   )
 }
