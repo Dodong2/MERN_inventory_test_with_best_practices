@@ -99,6 +99,7 @@ const Purchase = () => {
                                         </div>
 
                                         {/* cart products */}
+                                        <div className='flex flex-col gap-2.5'>
                                         {cart.map((item, index) => (
                                             <section key={index} className={`${index % 2 === 0 ? 'bg-amber-200' : 'bg-blue-300'} rounded-sm p-2`}>
                                                 <span className='flex items-center justify-between p-1'>
@@ -126,12 +127,13 @@ const Purchase = () => {
                                                     </div>
                                                 </span>
                                             </section>
-                                        ))}
+                                        ))}</div>
                                         <button onClick={proceedToPurchaseMemo}>Proceed to Purchase</button>
                                     </main>
                                 </motion.div>
-
+                                        
                             </div>
+                            
                         )}
 
                     </div>
